@@ -2,19 +2,13 @@ import { useState } from 'react';
 import ColorHeroSection from './hero/ColorHeroSection';
 import ColorStatsSection from './stats/ColorStatsSection';
 import ColorHistorySection from './history/ColorHistorySection';
-import AlertToast from '../ui/AlertToast';
 import { useColor } from '../../hooks/useColor';
+import Alert from '../ui/Alert';
 
 export default function ColorPage() {
+  const [showCopyAlert, setShowCopyAlert] = useState(false);
   const { color, history, format, setFormat, handleClick, clearHistory } =
     useColor();
-
-  const [showAlert, setShowAlert] = useState(false);
-
-  const handleGenerateColor = () => {
-    handleClick();
-    setShowAlert(true);
-  };
 
   return (
     <div className='w-full flex flex-col items-center gap-8'>
@@ -22,14 +16,15 @@ export default function ColorPage() {
         color={color}
         format={format}
         setFormat={setFormat}
-        onClick={handleGenerateColor}
+        onClick={handleClick}
+        onCopy={() => setShowCopyAlert(true)}
       />
 
-      <ColorStatsSection />
+      <ColorStatsSection color={color} />
 
       <ColorHistorySection history={history} clearHistory={clearHistory} />
 
-      {showAlert && <AlertToast onClose={() => setShowAlert(false)} />}
+      {showCopyAlert && <Alert onClose={() => setShowCopyAlert(false)} />}
     </div>
   );
 }
