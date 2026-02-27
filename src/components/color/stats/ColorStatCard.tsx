@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 type Props = {
   label: string;
   value: number;
@@ -25,12 +27,14 @@ export default function ColorStatCard({
         aria-valuemax={100}
         aria-label={`${label} intensity`}
       >
-        <div
+        <motion.div
           className='h-full rounded-full'
-          style={{
+          initial={{ width: 0 }}
+          animate={{
             width: `${percentage}%`,
             backgroundColor: color,
           }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
         />
       </div>
     </div>

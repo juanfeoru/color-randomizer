@@ -40,7 +40,7 @@ export default function ColorCodeDisplay({ color, format, onCopy }: Props) {
   return (
     <div className='flex flex-col items-center gap-2 w-full'>
       <button
-        className='flex items-center justify-between gap-3 bg-surface-dark px-6 py-4 rounded-2xl border border-border-dark hover:border-primary/50 transition-colors group cursor-pointer w-full h-fit'
+        className='flex items-center justify-between gap-3 bg-surface-dark px-6 py-4 rounded-2xl border border-border-dark hover:border-primary/50 transition-all duration-500 group cursor-pointer w-full h-fit'
         onClick={handleCopy}
         aria-label={`Copy color code: ${displayed}`}
       >

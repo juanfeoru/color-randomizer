@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import HistoryHeader from './HistoryHeader';
 import HistoryItem from './HistoryItem';
 import type { HexColor } from '../../../types/color.types';
@@ -13,13 +14,15 @@ export default function ColorHistorySection({ history, clearHistory }: Props) {
       <HistoryHeader clearHistory={clearHistory} />
 
       <div className='grid grid-cols-2 sm:grid-cols-4 gap-4'>
-        {history.map((history, index) => (
-          <HistoryItem
-            key={index}
-            color={history.hex}
-            time={history.generatedAt}
-          />
-        ))}
+        <AnimatePresence>
+          {history.map((h, index) => (
+            <HistoryItem
+              key={`${h.hex}-${index}`}
+              color={h.hex}
+              time={h.generatedAt}
+            />
+          ))}
+        </AnimatePresence>
       </div>
     </section>
   );
