@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { useColor } from '../../hooks/useColor';
 import Alert from '../ui/Alert';
 import ColorHeroSection from './hero/ColorHeroSection';
@@ -9,6 +10,15 @@ export default function ColorPage() {
   const [showCopyAlert, setShowCopyAlert] = useState(false);
   const { color, history, format, setFormat, handleClick, clearHistory } =
     useColor();
+
+  useEffect(() => {
+    if (showCopyAlert) {
+      const timer = setTimeout(() => {
+        setShowCopyAlert(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showCopyAlert]);
 
   return (
     <div className='w-full flex flex-col items-center gap-8'>
@@ -24,7 +34,7 @@ export default function ColorPage() {
 
       <ColorHistorySection history={history} clearHistory={clearHistory} />
 
-      {showCopyAlert && <Alert onClose={() => setShowCopyAlert(false)} />}
+      <AnimatePresence>{showCopyAlert && <Alert />}</AnimatePresence>
     </div>
   );
 }

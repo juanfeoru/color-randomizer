@@ -1,56 +1,40 @@
-import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
-type AlertProps = {
-  onClose: () => void;
-  duration?: number;
-};
-
-export default function Alert({ onClose, duration = 3000 }: AlertProps) {
-  const [closing, setClosing] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setClosing(true);
-      setTimeout(() => {
-        if (onClose) onClose();
-      }, 300);
-    }, duration);
-
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
-
+export default function Alert() {
   return (
-    <div
-      className={`fixed bottom-6 right-6 z-50 ${
-        closing ? 'animate-slide-down' : 'animate-slide-up'
-      }`}
+    <motion.div
+      initial={{ opacity: 0, y: 50, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: 20, scale: 0.95 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+      className='fixed bottom-8 left-1/2 -translate-x-1/2 z-50'
     >
       <div
-        className='flex items-center gap-3 bg-surface-dark border border-border-dark text-white px-6 py-4 rounded-xl shadow-lg'
+        className='flex items-center gap-3 bg-surface-dark/80 backdrop-blur-md border border-white/10 text-white px-5 py-3 rounded-2xl shadow-2xl'
         role='status'
         aria-live='polite'
       >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          width='24'
-          height='24'
-          viewBox='0 0 24 24'
-          fill='none'
-          stroke='currentColor'
-          strokeWidth='1.25'
-          strokeLinecap='round'
-          strokeLinejoin='round'
-          className='icon icon-tabler icons-tabler-outline icon-tabler-circle-check text-primary'
-          aria-hidden='true'
-        >
-          <path stroke='none' d='M0 0h24v24H0z' fill='none' />
-          <path d='M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0' />
-          <path d='M9 12l2 2l4 -4' />
-        </svg>
-        <span className='font-medium text-sm md:text-base'>
-          Color copied to clipboard!
+        <div className='flex items-center justify-center size-8 rounded-full bg-primary/20 text-primary'>
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            width='20'
+            height='20'
+            viewBox='0 0 24 24'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            aria-hidden='true'
+          >
+            <path stroke='none' d='M0 0h24v24H0z' fill='none' />
+            <path d='M5 12l5 5l10 -10' />
+          </svg>
+        </div>
+        <span className='font-bold text-sm tracking-wide'>
+          COPIED TO CLIPBOARD
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 }
